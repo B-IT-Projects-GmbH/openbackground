@@ -1,0 +1,85 @@
+# OpenBackground - Docker Compose Configuration
+# Use profiles to select CPU or GPU version
+
+services:
+  # CPU Version
+  openbackground-cpu:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.cpu
+    image: openbackground:cpu
+    container_name: openbackground-cpu
+    profiles:
+      - cpu
+    ports:
+      - "8000:8000"
+    env_file:
+      - ../.env
+    environment:
+      - MODEL_CACHE_DIR=/app/models
+    volumes:
+      - model-cache:/app/models
+      - stats-data:/app/data
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/api/v1/health')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 60s
+
+  # GPU Version
+  openbackground-gpu:
+    build:
+      context: ..
+      dockerfile: docker/Dockerfile.gpu
+    image: openbackground:gpu
+    container_name: openbackground-gpu
+    profiles:
+      - gpu
+    ports:
+      - "8000:8000"
+    env_file:
+      - ../.env
+    environment:
+      - MODEL_CACHE_DIR=/app/models
+    volumes:
+      - model-cache:/app/models
+      - stats-data:/app/data
+    deploy:
+      resources:
+        reservations:
+          devices:
+            - driver: nvidia
+              count: 1
+              capabilities: [gpu]
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "python", "-c", "import urllib.request; urllib.request.urlopen('http://localhost:8000/api/v1/health')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 120s
+
+  # Optional: Nginx Reverse Proxy
+  nginx:
+    image: nginx:alpine
+    container_name: openbackground-nginx
+    profiles:
+      - proxy
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./nginx.conf:/etc/nginx/nginx.conf:ro
+      - ./certs:/etc/nginx/certs:ro
+    depends_on:
+      - openbackground-cpu
+    restart: unless-stopped
+
+volumes:
+  model-cache:
+    name: openbackground-models
+  stats-data:
+    name: openbackground-stats
+

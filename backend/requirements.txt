@@ -1,0 +1,24 @@
+# OpenBackground - Background Removal Microservice
+# Python dependencies
+
+# Web framework
+fastapi>=0.104.0
+uvicorn[standard]>=0.24.0
+
+# Machine Learning
+transformers>=4.35.0
+torch>=2.1.0
+torchvision>=0.16.0
+
+# Image processing
+pillow>=10.0.0
+scikit-image>=0.22.0
+numpy>=1.24.0
+
+# Configuration and utilities
+pydantic-settings>=2.0.0
+python-multipart>=0.0.6
+
+# Optional: For async file operations
+aiofiles>=23.0.0
+
