@@ -28,7 +28,7 @@ To find compatible models, search on [Hugging Face Hub](https://huggingface.co/m
 **CPU Version:**
 ```bash
 # Clone the repository
-git clone https://github.com/yourusername/openbackground.git
+git clone https://github.com/B-IT-Projects-GmbH/openbackground.git
 cd openbackground
 
 # Create .env file
@@ -52,7 +52,7 @@ The service will be available at `http://localhost:8000`
 
 ```bash
 # Clone and enter directory
-git clone https://github.com/yourusername/openbackground.git
+git clone https://github.com/B-IT-Projects-GmbH/openbackground.git
 cd openbackground
 
 # Create virtual environment
