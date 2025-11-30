@@ -12,7 +12,7 @@ from PIL import Image
 from torchvision.transforms.functional import normalize
 
 from app.config import get_settings
-from app.models.manager import model_manager
+from app.ml_models.manager import model_manager
 from app.services.statistics import statistics_service
 
 logger = logging.getLogger(__name__)

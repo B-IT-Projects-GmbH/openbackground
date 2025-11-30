@@ -10,7 +10,7 @@ from fastapi.responses import FileResponse
 
 from app.config import get_settings
 from app.routers import remove_bg, models, stats
-from app.models.manager import model_manager
+from app.ml_models.manager import model_manager
 
 # Configure logging
 logging.basicConfig(

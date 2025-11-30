@@ -7,7 +7,7 @@ from pydantic import BaseModel
 
 from app.auth import verify_api_key
 from app.config import get_settings
-from app.models.manager import model_manager
+from app.ml_models.manager import model_manager
 
 router = APIRouter()
 
